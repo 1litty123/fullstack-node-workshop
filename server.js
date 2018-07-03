@@ -13,9 +13,15 @@ const complements = [
   "You've learned a lot of things, and that's pretty hard to do"
 ];
 
-function getRandomComplement() {
-  const randomIndex = Math.floor(Math.random() * complements.length);
-  return complements[randomIndex];
+const insults = [
+    "You suck.",
+    "That dress does NOT look nice on you",
+    "Jeez, when was the last time you worked out?"
+]
+
+function getRandomElement(array) {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
 }
 
 const app = express();
@@ -27,12 +33,19 @@ app.get("/", function(req, res) {
 app.get("/complement", function(req, res) {
   res
     .json({
-      complement: getRandomComplement()
+      complement: getRandomElement(complements)
     })
     .end();
 });
 
-app.use("/public", express.static("./public"));
+app.get("/insult", function(req, res) {
+    res.json({
+        insult: getRandomElement(insults)
+    })
+    .end();
+})
+
+app.use("/public", express.static("./public")); // allow the server to use all the files in the public folder.
 
 app.listen(3000);
 console.log("listening on http://localhost:3000");
